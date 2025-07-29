@@ -9,7 +9,17 @@ services:
     #   - MONGO_INITDB_ROOT_PASSWORD=secret
     env_file:
       - ./env/mongo.env
-  # frontend:
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
   backend:
     build: ./backend
     ports:
@@ -22,14 +32,9 @@ services:
       - ./env/backend.env
     depends_on:
       - mongodb
-
-
-    
-    
     # build: 
     #   context: ./backend
     #   dockerfile: dockerfile
-
 volumes:
   data:
   logs:
